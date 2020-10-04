@@ -8,7 +8,9 @@ from src.services.genetic_algorithm import GeneticAlgorithm
 from src.helpers.constants import MATRIX_FIELDS, DB_COLLECTIONS
 from src.helpers.notify_helper import notifyUser
 from src.helpers.transform import binaryTroughtMatrix 
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 
 def getRoutes(data):
