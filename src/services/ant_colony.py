@@ -119,7 +119,6 @@ class AntSystem:
     def getPossibleChoices(self, currentRoute):
         possibleChoices = list(self.origens)
         for local in currentRoute:
-            # TODO if redundante
             if local in possibleChoices:
                 if local in self.origens:
                     possibleChoices = possibleChoices + [
@@ -190,10 +189,10 @@ class AntSystem:
                 self.pheromonesDistrib[i, j][0] = (
                     1-self.evaporationRate)*pheromone + deltaPheromone[i, j]
 
-    def mountRoutes(self, nOfRoutes = 10):
+    # TODO: impedir rotas infinitas de uma forma melhor...
+    def mountRoutes(self, nOfRoutes = 100):
         routes = [[self.garage] for _ in range(nOfRoutes)]
         for route in routes:
-            # TODO 10 para impedir rotas infinitas
             while self.countRemaining(route) >0 and len(route) < nOfRoutes:
                 nextLocal = self.chooseNextLocal(route)
                 if(nextLocal is None):
@@ -204,7 +203,8 @@ class AntSystem:
         return routes, routeCosts
 
     def run(self, numInt=100):
-        for _ in range(numInt):
+        for i in range(numInt):
+            print(f"--------- ANT_ITERATION {i} --------- ")
             routes, routeCosts = self.mountRoutes()
             self.updateBestRoute(routes, routeCosts)
             deltaPheromone = self.calculateDeltaPheromone(routes, routeCosts)

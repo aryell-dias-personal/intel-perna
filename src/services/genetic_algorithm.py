@@ -106,17 +106,21 @@ class GeneticAlgorithm:
 
     def run(self, numIter=100):
         for i in range(numIter):
+            print(f"--------- ITERATION {i} --------- ")
+            print(f"--------- FITNESS_VALUES --------- ")
             fitness_values = [self.fitness_function(json.dumps(individual)) for individual in self.population]
             self.fitnessCallback(dict(iteration=i, fitnessValues=fitness_values, numIter=numIter))
+            print(f"--------- SURVIVORS --------- ")
             survivors = self.selection(self.population, fitness_values)
             if not isinstance(survivors, list):
                 survivors = survivors.tolist()
             num_pairs = int(np.ceil((len(self.population) - len(survivors))/2))
             pairs = [(survivors[i], survivors[i+1]) for i in range(num_pairs)]
             new_population = survivors
+            print(f"--------- CROSSOVER --------- ")
             gen = self.crossoverGenerator(pairs)
             for _ in range(self.population_size - len(survivors)):
                 newElement = self.mutation(next(gen))
                 new_population.append(newElement)
-            # print(*list(zip(self.population, fitness_values))[0]) 
+            print(*list(zip(self.population, fitness_values))[0]) 
             self.population = new_population

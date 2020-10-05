@@ -22,11 +22,11 @@ def getRoutes(data):
     geneticSystem.initialize(**geneticSystemArgs)
     geneticSystem.run()
     result = geneticSystem.decodeChromosome(geneticSystem.population[0])
-    # notifyUser(result)
+    notifyUser(result)
     return result
 
 @app.route("/", methods=["POST"])
-def my_form_post():
+def post():
     try:
         result = getRoutes(request.data)
         return make_response(jsonify(
